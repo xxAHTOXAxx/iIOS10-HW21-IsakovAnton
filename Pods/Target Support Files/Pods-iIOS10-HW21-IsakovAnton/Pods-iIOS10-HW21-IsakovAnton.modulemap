@@ -1,0 +1,6 @@
+framework module Pods_iIOS10_HW21_IsakovAnton {
+  umbrella header "Pods-iIOS10-HW21-IsakovAnton-umbrella.h"
+
+  export *
+  module * { export * }
+}

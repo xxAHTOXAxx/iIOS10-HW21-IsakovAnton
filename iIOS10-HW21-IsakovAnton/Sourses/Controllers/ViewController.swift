@@ -1,29 +1,33 @@
+
 import UIKit
 import Alamofire
-
+import CryptoKit
 
 class ViewController: UIViewController {
     
     var sectionsData: [MarvelCharacter] = []
     
-    private var mainView: MainView? {
-        guard isViewLoaded else { return nil }
-        return view as? MainView
+    private var mainView: MainView {
+        return view as! MainView
     }
     
-    // MARK: - LifeStyle
+    // MARK: - Life Cycle
+    
+    override func loadView() {
+        super.loadView()
+        view = MainView()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view = MainView()
         setupView()
         setupHierarchy()
-        mainView?.setupLayout()
-        setting()
+        mainView.setupLayout()
+        setupTableDataSourceDelegate()
         fetchMarvelCharacters()
     }
     
-    // MARK: - Private functions
+    // MARK: - Private Functions
     
     private func setupView() {
         view.backgroundColor = .white
@@ -32,31 +36,33 @@ class ViewController: UIViewController {
     }
     
     private func setupHierarchy() {
-        view.addSubview(mainView?.tableView ?? UITableView())
+        view.addSubview(mainView.tableView)
     }
     
-    private func setting() {
-        //sectionsData = MarvelCharacter.
-        mainView?.tableView.dataSource = self
-        mainView?.tableView.delegate = self
+    private func setupTableDataSourceDelegate() {
+        mainView.tableView.dataSource = self
+        mainView.tableView.delegate = self
+        mainView.tableView.register(MarvelCharacterTableViewCell.self, forCellReuseIdentifier: "MarvelCharacterCell")
     }
     
-    func fetchMarvelCharacters() {
-        // код для выполнения запроса к API Marvel и получения данных о персонажах.
-        //  Alamofire для выполнения GET-запроса:
-        
+    private func fetchMarvelCharacters() {
         let apiKey = "bdd48a56f3f454e6bdfcd5fde74865d8"
+        let privateKey = "92af51b58d8579e8ae6f6c242b23704d43ad2fc6"
         let baseURL = "https://gateway.marvel.com/v1/public/characters"
         
-        let parameters: [String: Any] = [
-            "apikey": apiKey
-        ]
+        let timestamp = String(Date().timeIntervalSince1970)
+        let hash = MD5(string: timestamp + privateKey + apiKey).map { String(format: "%02hhx", $0) }.joined()
         
-        AF.request(baseURL, parameters: parameters).responseJSON { response in
+        let parameters: [String: Any] = [
+            "apikey": apiKey,
+            "ts": timestamp,
+            "hash": hash
+        ]
+        AF.request(baseURL, parameters: parameters).responseJSON { [weak self] response in
+            guard let self = self else { return }
+            
             switch response.result {
             case .success(let value):
-                // Обработайте данные JSON и обновите массив characters.
-                // Пример: парсинг данных и обновление массива characters.
                 if let json = value as? [String: Any],
                    let data = json["data"] as? [String: Any],
                    let results = data["results"] as? [[String: Any]] {
@@ -70,55 +76,85 @@ class ViewController: UIViewController {
                             
                             let thumbnailURLString = thumbnailURLString + "." + thumbnailExtension
                             let thumbnailURL = URL(string: thumbnailURLString)
+                            print("Thumbnail URL: \(thumbnailURLString)") // Добавьте эту строку для вывода URL-адресов
                             
                             let character = MarvelCharacter(name: name, description: description, thumbnailURL: thumbnailURL)
                             self.sectionsData.append(character)
                         }
                     }
                     
-                    // Обновите таблицу после получения данных.
-                    self.mainView?.tableView.reloadData()
+                    self.mainView.tableView.reloadData()
                 }
                 
             case .failure(let error):
                 print("Ошибка при выполнении запроса: \(error)")
             }
-        }  
+        }
+//        AF.request(baseURL, parameters: parameters).responseJSON { [weak self] response in
+//            guard let self = self else { return }
+//
+//            switch response.result {
+//            case .success(let value):
+//                if let json = value as? [String: Any],
+//                   let data = json["data"] as? [String: Any],
+//                   let results = data["results"] as? [[String: Any]] {
+//
+//                    for result in results {
+//                        if let name = result["name"] as? String,
+//                           let description = result["description"] as? String,
+//                           let thumbnail = result["thumbnail"] as? [String: Any],
+//                           let thumbnailURLString = thumbnail["path"] as? String,
+//                           let thumbnailExtension = thumbnail["extension"] as? String {
+//
+//                            let thumbnailURLString = thumbnailURLString + "." + thumbnailExtension
+//                            let thumbnailURL = URL(string: thumbnailURLString)
+//
+//                            let character = MarvelCharacter(name: name, description: description, thumbnailURL: thumbnailURL)
+//                            self.sectionsData.append(character)
+//                        }
+//                    }
+//
+//                    self.mainView.tableView.reloadData()
+//                }
+//
+//            case .failure(let error):
+//                print("Ошибка при выполнении запроса: \(error)")
+//            }
+//        }
+    }
+    
+    private func MD5(string: String) -> Data {
+        let data = Data(string.utf8)
+        let hash = Insecure.MD5.hash(data: data)
+        return Data(hash)
     }
 }
+
 // MARK: - UITableViewDataSource
 
 extension ViewController: UITableViewDataSource {
     
-    func numberOfSections(in tableView: UITableView) -> Int {
-        sectionsData.count
-    }
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        sectionsData.count
+        return sectionsData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-       // let model = sectionsData[indexPath.section][indexPath.row]
-        
-            let cell = tableView.dequeueReusableCell(withIdentifier: "MarvelCharacterCell", for: indexPath) as? MarvelCharacterTableViewCell
-            //cell?.configuration(model: model)
-            return cell ?? UITableViewCell()
-        }
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MarvelCharacterCell", for: indexPath) as? MarvelCharacterTableViewCell
+        let model = sectionsData[indexPath.row]
+        cell?.configure(with: model)
+        return cell ?? UITableViewCell()
+    }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        30
+        return 30
     }
 }
 
 // MARK: - UITableViewDelegate
+
 extension ViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         _ = sectionsData[indexPath.row]
-        
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }
-
-

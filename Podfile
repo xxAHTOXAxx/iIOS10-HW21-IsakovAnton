@@ -9,4 +9,7 @@ target 'iIOS10-HW21-IsakovAnton' do
 
 pod 'Alamofire', '~> 5.5'
 
+  use_frameworks!
+  pod 'Kingfisher'
+
 end

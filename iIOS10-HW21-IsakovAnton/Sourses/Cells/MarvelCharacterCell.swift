@@ -1,5 +1,7 @@
 
 import UIKit
+import Alamofire
+import Kingfisher
 
 class MarvelCharacterTableViewCell: UITableViewCell {
     
@@ -69,9 +71,32 @@ class MarvelCharacterTableViewCell: UITableViewCell {
         descriptionLabel.text = character.description
         
         if let thumbnailURL = character.thumbnailURL {
-            // Загрузите изображение из URL и установите его в characterImageView
-            // Пример:
-            // characterImageView.sd_setImage(with: thumbnailURL, placeholderImage: UIImage(named: "placeholder"))
+            // Используйте Kingfisher для загрузки и отображения изображения
+            characterImageView.kf.setImage(with: thumbnailURL, placeholder: UIImage(named: "placeholderImage"))
+        } else {
+            // Если у персонажа нет изображения, установите заглушку
+            characterImageView.image = UIImage(named: "placeholderImage")
         }
     }
+    
+    private func configureImage(with url: URL) {
+        URLSession.shared.dataTask(with: url) { [weak self] (data, response, error) in
+            guard let self = self else { return }
+
+            if let error = error {
+                print("Error loading image: \(error)")
+                return
+            }
+
+            guard let data = data, let image = UIImage(data: data) else {
+                print("Error converting data to image")
+                return
+            }
+
+            DispatchQueue.main.async {
+                self.characterImageView.image = image
+            }
+        }.resume()
+    }
+    
 }

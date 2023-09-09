@@ -1,9 +1,7 @@
+
 import UIKit
 
 class MarvelCharacterTableViewCell: UITableViewCell {
-   // @IBOutlet weak var characterImageView: UIImageView!
-   // @IBOutlet weak var nameLabel: UILabel!
-   // @IBOutlet weak var descriptionLabel: UILabel!
     
     private let characterImageView: UIImageView = {
         let imageView = UIImageView()
@@ -15,8 +13,8 @@ class MarvelCharacterTableViewCell: UITableViewCell {
     
     private let nameLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14)
-        label.textColor = UIColor.lightGray
+        label.font = UIFont.systemFont(ofSize: 16)
+        label.textColor = UIColor.black
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -24,8 +22,9 @@ class MarvelCharacterTableViewCell: UITableViewCell {
     private let descriptionLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 14)
-        label.textColor = UIColor.lightGray
+        label.textColor = UIColor.darkGray
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
         return label
     }()
     
@@ -48,26 +47,31 @@ class MarvelCharacterTableViewCell: UITableViewCell {
     }
     
     private func setupLayout() {
-        
         NSLayoutConstraint.activate([
-            
             characterImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             characterImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            characterImageView.widthAnchor.constraint(equalToConstant: 24),
-            characterImageView.heightAnchor.constraint(equalToConstant: 24),
+            characterImageView.widthAnchor.constraint(equalToConstant: 80),
+            characterImageView.heightAnchor.constraint(equalToConstant: 80),
             
             nameLabel.leadingAnchor.constraint(equalTo: characterImageView.trailingAnchor, constant: 10),
-            nameLabel.trailingAnchor.constraint(equalTo: characterImageView.leadingAnchor, constant: -10),
-            nameLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            nameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            nameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
             
+            descriptionLabel.leadingAnchor.constraint(equalTo: characterImageView.trailingAnchor, constant: 10),
             descriptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            descriptionLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            descriptionLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8),
+            descriptionLabel.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -16)  
         ])
     }
     
     func configure(with character: MarvelCharacter) {
         nameLabel.text = character.name
         descriptionLabel.text = character.description
+        
+        if let thumbnailURL = character.thumbnailURL {
+            // Загрузите изображение из URL и установите его в characterImageView
+            // Пример:
+            // characterImageView.sd_setImage(with: thumbnailURL, placeholderImage: UIImage(named: "placeholder"))
+        }
     }
-    // Дополнительные настройки и конфигурации кастомной ячейки
 }

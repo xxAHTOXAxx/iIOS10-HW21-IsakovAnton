@@ -71,10 +71,8 @@ class MarvelCharacterTableViewCell: UITableViewCell {
         descriptionLabel.text = character.description
         
         if let thumbnailURL = character.thumbnailURL {
-            // Используйте Kingfisher для загрузки и отображения изображения
             characterImageView.kf.setImage(with: thumbnailURL, placeholder: UIImage(named: "placeholderImage"))
         } else {
-            // Если у персонажа нет изображения, установите заглушку
             characterImageView.image = UIImage(named: "placeholderImage")
         }
     }

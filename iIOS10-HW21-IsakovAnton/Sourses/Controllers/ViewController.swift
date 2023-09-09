@@ -74,9 +74,9 @@ class ViewController: UIViewController {
                            let thumbnailURLString = thumbnail["path"] as? String,
                            let thumbnailExtension = thumbnail["extension"] as? String {
                             
-                            let thumbnailURLString = thumbnailURLString + "." + thumbnailExtension
+                            let thumbnailURLString = "https://" + thumbnailURLString + "." + thumbnailExtension
                             let thumbnailURL = URL(string: thumbnailURLString)
-                            print("Thumbnail URL: \(thumbnailURLString)") // Добавьте эту строку для вывода URL-адресов
+                            print("Thumbnail URL: \(thumbnailURLString)")
                             
                             let character = MarvelCharacter(name: name, description: description, thumbnailURL: thumbnailURL)
                             self.sectionsData.append(character)
@@ -90,37 +90,6 @@ class ViewController: UIViewController {
                 print("Ошибка при выполнении запроса: \(error)")
             }
         }
-//        AF.request(baseURL, parameters: parameters).responseJSON { [weak self] response in
-//            guard let self = self else { return }
-//
-//            switch response.result {
-//            case .success(let value):
-//                if let json = value as? [String: Any],
-//                   let data = json["data"] as? [String: Any],
-//                   let results = data["results"] as? [[String: Any]] {
-//
-//                    for result in results {
-//                        if let name = result["name"] as? String,
-//                           let description = result["description"] as? String,
-//                           let thumbnail = result["thumbnail"] as? [String: Any],
-//                           let thumbnailURLString = thumbnail["path"] as? String,
-//                           let thumbnailExtension = thumbnail["extension"] as? String {
-//
-//                            let thumbnailURLString = thumbnailURLString + "." + thumbnailExtension
-//                            let thumbnailURL = URL(string: thumbnailURLString)
-//
-//                            let character = MarvelCharacter(name: name, description: description, thumbnailURL: thumbnailURL)
-//                            self.sectionsData.append(character)
-//                        }
-//                    }
-//
-//                    self.mainView.tableView.reloadData()
-//                }
-//
-//            case .failure(let error):
-//                print("Ошибка при выполнении запроса: \(error)")
-//            }
-//        }
     }
     
     private func MD5(string: String) -> Data {

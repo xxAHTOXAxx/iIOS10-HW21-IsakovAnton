@@ -15,6 +15,7 @@
 		31E170872AA3BDD3000A3805 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31E170862AA3BDD3000A3805 /* Models.swift */; };
 		31E170892AA3BE06000A3805 /* MarvelCharacterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31E170882AA3BE06000A3805 /* MarvelCharacterCell.swift */; };
 		31E1708C2AA7B50A000A3805 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31E1708B2AA7B50A000A3805 /* MainView.swift */; };
+		31E1708E2AAC8AF8000A3805 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31E1708D2AAC8AF8000A3805 /* File.swift */; };
 		77157244678D17F40BA668DD /* Pods_iIOS10_HW21_IsakovAnton.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4552BAFCE3EF8DB169D71496 /* Pods_iIOS10_HW21_IsakovAnton.framework */; };
 /* End PBXBuildFile section */
 
@@ -29,6 +30,7 @@
 		31E170862AA3BDD3000A3805 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		31E170882AA3BE06000A3805 /* MarvelCharacterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarvelCharacterCell.swift; sourceTree = "<group>"; };
 		31E1708B2AA7B50A000A3805 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		31E1708D2AAC8AF8000A3805 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		4552BAFCE3EF8DB169D71496 /* Pods_iIOS10_HW21_IsakovAnton.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iIOS10_HW21_IsakovAnton.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4933C5A69C4D947C98F98F03 /* Pods-iIOS10-HW21-IsakovAnton.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iIOS10-HW21-IsakovAnton.release.xcconfig"; path = "Target Support Files/Pods-iIOS10-HW21-IsakovAnton/Pods-iIOS10-HW21-IsakovAnton.release.xcconfig"; sourceTree = "<group>"; };
 		DC3FDB86EBD277AFCE2A690E /* Pods-iIOS10-HW21-IsakovAnton.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iIOS10-HW21-IsakovAnton.debug.xcconfig"; path = "Target Support Files/Pods-iIOS10-HW21-IsakovAnton/Pods-iIOS10-HW21-IsakovAnton.debug.xcconfig"; sourceTree = "<group>"; };
@@ -132,6 +134,7 @@
 			isa = PBXGroup;
 			children = (
 				31E1708B2AA7B50A000A3805 /* MainView.swift */,
+				31E1708D2AAC8AF8000A3805 /* File.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -269,6 +272,7 @@
 			files = (
 				31E170892AA3BE06000A3805 /* MarvelCharacterCell.swift in Sources */,
 				31E1708C2AA7B50A000A3805 /* MainView.swift in Sources */,
+				31E1708E2AAC8AF8000A3805 /* File.swift in Sources */,
 				31E1706E2AA3B8DF000A3805 /* ViewController.swift in Sources */,
 				31E1706A2AA3B8DF000A3805 /* AppDelegate.swift in Sources */,
 				31E1706C2AA3B8DF000A3805 /* SceneDelegate.swift in Sources */,

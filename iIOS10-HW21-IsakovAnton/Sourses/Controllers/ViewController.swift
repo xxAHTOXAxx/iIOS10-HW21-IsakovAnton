@@ -83,8 +83,7 @@ class ViewController: UIViewController {
             case .failure(let error):
                 print("Ошибка при выполнении запроса: \(error)")
             }
-        }
-        
+        }  
     }
 }
 // MARK: - UITableViewDataSource

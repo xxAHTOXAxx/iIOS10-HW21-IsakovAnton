@@ -1,4 +1,3 @@
-
 import UIKit
 import Alamofire
 import CryptoKit
@@ -58,6 +57,7 @@ class ViewController: UIViewController {
             "ts": timestamp,
             "hash": hash
         ]
+        
         AF.request(baseURL, parameters: parameters).responseJSON { [weak self] response in
             guard let self = self else { return }
             
@@ -117,13 +117,19 @@ extension ViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 30
     }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100 
+    }
 }
 
 // MARK: - UITableViewDelegate
 
 extension ViewController: UITableViewDelegate {
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        _ = sectionsData[indexPath.row]
-        tableView.deselectRow(at: indexPath, animated: true)
+        let characterDetailVC = CharacterDetailViewController()
+        characterDetailVC.character = sectionsData[indexPath.row]
+        navigationController?.pushViewController(characterDetailVC, animated: true)
     }
 }

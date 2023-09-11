@@ -74,7 +74,7 @@ class ViewController: UIViewController {
                            let thumbnailURLString = thumbnail["path"] as? String,
                            let thumbnailExtension = thumbnail["extension"] as? String {
                             
-                            let thumbnailURLString = "https://" + thumbnailURLString + "." + thumbnailExtension
+                            let thumbnailURLString = thumbnailURLString + "." + thumbnailExtension
                             let thumbnailURL = URL(string: thumbnailURLString)
                             print("Thumbnail URL: \(thumbnailURLString)")
                             
